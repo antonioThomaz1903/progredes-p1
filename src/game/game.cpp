@@ -1,11 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "game.h"
+#include "../lib/game.h"
 
-jogo::jogo(int tamanho) : tamanho(tamanho), status(true), turno(1) {
+jogador::jogador(int ultimoTurno, char letra) : ultimoTurno(ultimoTurno), letra(letra) {}
+
+int jogador::getTurno() const {
+    return ultimoTurno;
+}
+
+void jogador::setTurno(int turno) {
+    ultimoTurno = turno;
+}
+
+char jogador::getLetra() const {
+    return letra;
+}
+
+jogo::jogo(int tamanho, jogador jogador1, jogador jogador2)
+    : tamanho(tamanho), status(true), turno(1), jogador1(jogador1), jogador2(jogador2) {
     posicao = new char[tamanho * tamanho];
-    iniciaJogo();
+    iniciaMapa();
 }
 
 jogo::~jogo() {
@@ -13,37 +28,32 @@ jogo::~jogo() {
 }
 
 void jogo::iniciaMapa() {
-
     system("clear");
-
-    if (posicao == nullptr) {
-        printf("Erro.");
-        exit(1);
-    }
     for (int i = 0; i < tamanho * tamanho; i++) {
         posicao[i] = '-';
     }
 }
 
 void jogo::retornaMapa() const {
-    int aux;
+    int aux = 0;
     while (aux < tamanho * tamanho) {
         printf("%c", posicao[aux]);
         aux++;
-        if(aux%tamanho != 0) {
+        if(aux % tamanho != 0) {
             printf("|");
         } else {
             printf("\n");
-            for(int i = 0; i < (tamanho * 2) - 1; i++) {
-                printf("-");
-            }
+            // for(int i = 0; i < (tamanho * 2) - 1; i++) {
+            //     printf("-");
+            // }
+            // printf("\n");
         }
     }
 }
 
 void jogo::checaMapa() {
     if(checaColuna() || checaDiagonal() || checaLinha())
-        status = false;
+        status = false; 
 }
 
 bool jogo::checaColuna() const {
@@ -57,9 +67,7 @@ bool jogo::checaColuna() const {
                     break;
                 }
             }
-            if (venceu) {
-                return true;
-            }
+            if (venceu) return true;
         }
     }
     return false;
@@ -75,9 +83,7 @@ bool jogo::checaDiagonal() const {
                 break;
             }
         }
-        if (venceu) {
-            return true;
-        }
+        if (venceu) return true;
     }
 
     elementoinicial = posicao[tamanho - 1];
@@ -89,16 +95,14 @@ bool jogo::checaDiagonal() const {
                 break;
             }
         }
-        if (venceu) {
-            return true;
-        }
+        if (venceu) return true;
     }
 
     return false;
 }
 
 bool jogo::checaLinha() const {
-for (int i = 0; i < tamanho; i++) {
+    for (int i = 0; i < tamanho; i++) {
         char elementoinicial = posicao[i * tamanho];
         if (elementoinicial != '-') {
             bool venceu = true;
@@ -108,11 +112,40 @@ for (int i = 0; i < tamanho; i++) {
                     break;
                 }
             }
-            if (venceu) {
-                return true;
-            }
+            if (venceu) return true;
         }
     }
     return false;
 }
 
+void jogo::iniciaJogo() {
+    while (status) {
+        retornaMapa();
+        
+        // Alterna entre os jogadores
+        jogador& atual = (turno % 2 != 0) ? jogador1 : jogador2;
+        int posicaoEscolhida;
+        
+        printf("Jogador %c, escolha uma posição: ", atual.getLetra());
+        std::cin >> posicaoEscolhida;
+        
+        if (posicao[posicaoEscolhida - 1] == '-') {
+            posicao[posicaoEscolhida - 1] = atual.getLetra();
+            checaMapa();
+            turno++;
+        } else {
+            printf("Posição inválida. Tente novamente.\n");
+        }
+        if (!status) 
+            printf("Jogo encerrado: Jogador %c Ganhou!!!!!\n", atual.getLetra());
+    }
+    retornaMapa();
+
+}
+
+int main () {
+    jogador jogador1(1, 'X');
+    jogador jogador2(1, 'O');
+    jogo jogao(3, jogador1, jogador2);
+    jogao.iniciaJogo();
+}
