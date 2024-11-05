@@ -5,7 +5,7 @@
 
 jogo::jogo(int tamanho) : tamanho(tamanho), status(true), turno(1) {
     posicao = new char[tamanho * tamanho];
-    iniciaMapa();
+    iniciaJogo();
 }
 
 jogo::~jogo() {
@@ -115,3 +115,4 @@ for (int i = 0; i < tamanho; i++) {
     }
     return false;
 }
+
