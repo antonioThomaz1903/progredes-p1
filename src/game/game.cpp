@@ -143,9 +143,16 @@ void jogo::iniciaJogo() {
 
 }
 
-int main () {
+int main (int argc, char *argv[]) {
+    if (std::atoi(argv[1]) < 1) {
+        printf("Tamanho Invalido. Tente novamente.\n");
+        exit(0);
+    }
+    int tamanho = std::atoi(argv[1]);
     jogador jogador1(1, 'X');
     jogador jogador2(1, 'O');
-    jogo jogao(3, jogador1, jogador2);
+    jogo jogao(tamanho, jogador1, jogador2);
     jogao.iniciaJogo();
+
+    return 0;
 }
