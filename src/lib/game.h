@@ -1,32 +1,41 @@
-#ifndef JOGO_H
-#define JOGO_H
+#ifndef GAME_H
+#define GAME_H
 
 #include <iostream>
 
+class jogador {
+    private:
+        int ultimoTurno;
+        char letra;
+    public:
+        jogador(int ultimoTurno = 0, char letra = 'X');
+        ~jogador() = default;
+        void setTurno(int turno);
+        int getTurno() const;
+        char getLetra() const;
+};
+
 class jogo {
     private:
-        int tamanho; // número de colunas ou linhas
-        char *posicao; // armazena os X, O e espaços vazios
-        bool status; // indica o estado do jogo
-        int turno; // indica o turno atual para alternar entre jogadores
+        int tamanho;
+        char *posicao;
+        bool status;
+        int turno;
+        jogador jogador1;
+        jogador jogador2;
 
         bool checaColuna() const;
         bool checaLinha() const;
         bool checaDiagonal() const;
 
     public:
-        jogo(int tamanho);
+        jogo(int tamanho, jogador jogador1, jogador jogador2);
         ~jogo();
 
         void iniciaMapa();
         void retornaMapa() const;
         void checaMapa();
-        void jogada(int posicao, char simbolo);
         void iniciaJogo();
 };
 
-
-class jogador {
-    int ultimoTurno;
-};
 #endif
