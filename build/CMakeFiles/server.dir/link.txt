@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/server.dir/src/server.cpp.o CMakeFiles/server.dir/src/game.cpp.o -o /home/toni/progredes/progredes-p1/bin/server 

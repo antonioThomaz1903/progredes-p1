@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <iostream>
+#include <string>
 
 class jogador {
     private:
@@ -29,13 +30,13 @@ class jogo {
         bool checaDiagonal() const;
 
     public:
-        jogo(int tamanho, jogador jogador1, jogador jogador2);
+        jogo(int tamanho, jogador jogador1fd, jogador jogador2fd);
         ~jogo();
 
         void iniciaMapa();
-        void retornaMapa() const;
+        std::string retornaMapa() const;
         void checaMapa();
-        void iniciaJogo();
+        void iniciaJogo(int jogador1, int jogador2);
 };
 
 #endif

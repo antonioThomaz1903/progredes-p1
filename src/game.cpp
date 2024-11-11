@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string>
 #include "../lib/game.h"
+#include "../lib/server.h"
+using std::string;
 
 jogador::jogador(int ultimoTurno, char letra) : ultimoTurno(ultimoTurno), letra(letra) {}
 
@@ -34,21 +37,21 @@ void jogo::iniciaMapa() {
     }
 }
 
-void jogo::retornaMapa() const {
+string jogo::retornaMapa() const {
     int aux = 0;
+    string mapa_str(1, '\0');
+    string letra;
     while (aux < tamanho * tamanho) {
-        printf("%c", posicao[aux]);
+        letra = posicao[aux];
+        mapa_str.append(letra);
         aux++;
         if(aux % tamanho != 0) {
-            printf("|");
+            mapa_str.append("|");
         } else {
-            printf("\n");
-            // for(int i = 0; i < (tamanho * 2) - 1; i++) {
-            //     printf("-");
-            // }
-            // printf("\n");
+            mapa_str.append("\n");
         }
     }
+    return mapa_str;
 }
 
 void jogo::checaMapa() {
@@ -118,41 +121,3 @@ bool jogo::checaLinha() const {
     return false;
 }
 
-void jogo::iniciaJogo() {
-    while (status) {
-        retornaMapa();
-        
-        // Alterna entre os jogadores
-        jogador& atual = (turno % 2 != 0) ? jogador1 : jogador2;
-        int posicaoEscolhida;
-        
-        printf("Jogador %c, escolha uma posição: ", atual.getLetra());
-        std::cin >> posicaoEscolhida;
-        
-        if (posicao[posicaoEscolhida - 1] == '-') {
-            posicao[posicaoEscolhida - 1] = atual.getLetra();
-            checaMapa();
-            turno++;
-        } else {
-            printf("Posição inválida. Tente novamente.\n");
-        }
-        if (!status) 
-            printf("Jogo encerrado: Jogador %c Ganhou!!!!!\n", atual.getLetra());
-    }
-    retornaMapa();
-
-}
-
-int main (int argc, char *argv[]) {
-    if (std::atoi(argv[1]) < 1) {
-        printf("Tamanho Invalido. Tente novamente.\n");
-        exit(0);
-    }
-    int tamanho = std::atoi(argv[1]);
-    jogador jogador1(1, 'X');
-    jogador jogador2(1, 'O');
-    jogo jogao(tamanho, jogador1, jogador2);
-    jogao.iniciaJogo();
-
-    return 0;
-}

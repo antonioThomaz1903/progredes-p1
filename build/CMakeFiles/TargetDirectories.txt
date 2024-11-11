@@ -1,0 +1,4 @@
+/home/toni/progredes/progredes-p1/build/CMakeFiles/server.dir
+/home/toni/progredes/progredes-p1/build/CMakeFiles/client.dir
+/home/toni/progredes/progredes-p1/build/CMakeFiles/edit_cache.dir
+/home/toni/progredes/progredes-p1/build/CMakeFiles/rebuild_cache.dir
