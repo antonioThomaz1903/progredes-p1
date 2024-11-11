@@ -39,46 +39,82 @@ int main(int argc, char *argv[]) {
     
     string buffer(1024, '\0');
     string escolha;
-
     char letra;
+    string ack = "ack";
+    // BEM VINDO
+    read(sock, &buffer[0], 18);
+    send(sock, &ack[0], 3, 0);
+    std::cout << buffer << std::endl;
     
-    read(sock, &buffer[0], buffer.length() - 1);
-    letra = buffer[0];
-    
-    std::cout << "Voce eh o jogador  " << buffer << std::endl;
+
     buffer.clear();
+    read(sock, &buffer[0], 1);
+    
+    letra = buffer[0];
+    std::cout << "Voce eh o jogador " << letra << std::endl;
+    send(sock, &ack[0], 3, 0);
 
     // ---------- JOGO ----------
 
+    // MAPA
+    buffer.clear();
+    read(sock, &buffer[0], 30);
+    send(sock, &ack[0], 3, 0);
+    std::cout << buffer.c_str();
+    
 
     // BUFFER = JOGADOR DA VEZ
-    read(sock, &buffer[0], buffer.length() - 1);
+    buffer.clear();
+    buffer.assign(1024, '\0');
+    read(sock, &buffer[0], 1);
+    send(sock, &ack[0], 3, 0);
+    std::cout << buffer.c_str() << std::endl;
 
-    while(buffer != "end"){
-        buffer.clear();
-
-        // Receber status do mapa
-        read(sock, &buffer[0], buffer.length() - 1);
+    while(buffer != "end"){   
 
         if(buffer[0] == letra){
             // Enviar posicao
             do{
                 std::cout << "Escolha a posicao: ";
                 std::cin >> escolha;
-                send(sock, &escolha[0], escolha.length(), 0);
-                buffer.clear();
-                read(sock, &buffer[0], buffer.length() - 1);
-                if(buffer != "ok!"){
+                send(sock, &escolha[0], 3, 0);
+                buffer.assign(1024, '\0');
+
+                read(sock, &buffer[0], 3);
+
+                buffer.assign(1024, '\0');
+                read(sock, &buffer[0], 3);
+                std::cout << buffer.c_str() << std::endl;
+                if(buffer[0] != '1'){
                     std::cout << "Posicao invalida!" << std::endl;
                 }
-            }while(buffer != "ok!");
 
-            // Receber status do mapa
+                buffer.assign(1024, '\0');
+                read(sock, &buffer[0], 30);
+                send(sock, &ack[0], 3, 0);
 
-
-
+            }while(buffer[0] != '1');
         }
-        
+        else{
+            std::cout << "Vez do adversario" << std::endl;
+            buffer.clear();
+            read(sock, &buffer[0], 4);
+            if(buffer == "end"){
+                buffer.clear();
+                read(sock, &buffer[0], 2);
+                std::cout << "Jogador " << buffer.c_str() << " ganhou!" << std::endl;
+                break;
+            }
+        }
+
+        // MAPA
+        buffer.clear();
+        read(sock, &buffer[0], buffer.length() - 1);
+        std::cout << buffer;
+
+        // JOGADOR DA VEZ
+        buffer.clear();
+        read(sock, &buffer[0], buffer.length() - 1);
     }
     
     // Fechar o socket

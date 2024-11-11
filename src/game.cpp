@@ -31,7 +31,6 @@ jogo::~jogo() {
 }
 
 void jogo::iniciaMapa() {
-    system("clear");
     for (int i = 0; i < tamanho * tamanho; i++) {
         posicao[i] = '-';
     }
@@ -39,7 +38,8 @@ void jogo::iniciaMapa() {
 
 string jogo::retornaMapa() const {
     int aux = 0;
-    string mapa_str(1, '\0');
+    string mapa_str;
+    mapa_str = "";
     string letra;
     while (aux < tamanho * tamanho) {
         letra = posicao[aux];
@@ -51,6 +51,7 @@ string jogo::retornaMapa() const {
             mapa_str.append("\n");
         }
     }
+    mapa_str.append("\0");
     return mapa_str;
 }
 

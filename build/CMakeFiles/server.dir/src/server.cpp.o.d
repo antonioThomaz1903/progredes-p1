@@ -180,12 +180,7 @@ CMakeFiles/server.dir/src/server.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
- /usr/include/linux/close_range.h /usr/include/netdb.h \
- /usr/include/rpc/netdb.h \
- /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h \
- /usr/include/x86_64-linux-gnu/bits/netdb.h /usr/include/c++/13/cstring \
- /usr/include/string.h /usr/include/strings.h \
+ /usr/include/linux/close_range.h \
  /home/toni/progredes/progredes-p1/src/../lib/game.h \
  /home/toni/progredes/progredes-p1/src/../lib/server.h \
  /home/toni/progredes/progredes-p1/src/../lib/game.h
